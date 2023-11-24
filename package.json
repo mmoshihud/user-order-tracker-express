@@ -7,7 +7,7 @@
     "build": "tsc",
     "lint": "eslint src --ignore-path .eslintignore --ext .ts",
     "lint:fix": "npx eslint src --fix",
-    "prettier": "prettier --ignore-path .gitignore --write \"./src/**/*.+(js|ts|json)\"",
+    "prettier": "npx prettier --write src",
     "test": "mocha"
   },
   "repository": {
@@ -37,6 +37,7 @@
     "@typescript-eslint/eslint-plugin": "^6.12.0",
     "@typescript-eslint/parser": "^6.12.0",
     "eslint": "^8.54.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard-with-typescript": "^40.0.0",
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-n": "^16.3.1",
