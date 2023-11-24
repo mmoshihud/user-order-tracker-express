@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.vscode/
+.idea/
+.env
+*.tsbuildinfo
+*.js.map
+*.log
+*.js
+*.map
+**/*.model.js
+Dockerfile
+docker-compose.yml
