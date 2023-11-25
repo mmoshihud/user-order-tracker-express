@@ -11,7 +11,7 @@ const addOrderToUser = async (req: Request, res: Response) => {
     const order = await OrderService.createOrderInToDB(userId, validatedData);
 
     if (order) {
-      res.json({
+      res.status(201).json({
         success: true,
         message: "Order created successfully!",
         data: null,

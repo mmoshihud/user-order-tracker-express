@@ -11,3 +11,4 @@ dist/
 **/*.model.js
 Dockerfile
 docker-compose.yml
+.vercel
