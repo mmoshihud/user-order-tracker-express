@@ -5,26 +5,11 @@ import { type Request, type Response } from "express";
 const getAllUsers = async (req: Request, res: Response): Promise<void> => {
   try {
     const result: IUser[] = await UserServices.getAllUsersFromDB();
-    const data = result.map((user) => ({
-      _id: user._id,
-      userId: user.userId,
-      username: user.username,
-      fullName: {
-        firstName: user.fullName.firstName,
-        lastName: user.fullName.lastName,
-      },
-      age: user.age,
-      email: user.email,
-      address: {
-        street: user.address.street,
-        city: user.address.city,
-        country: user.address.country,
-      },
-    }));
+
     res.status(200).json({
       success: true,
       message: "Users fetched successfully!",
-      data,
+      data: result,
     });
   } catch (err) {
     console.log(err);
@@ -34,35 +19,64 @@ const getAllUsers = async (req: Request, res: Response): Promise<void> => {
 const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const newUser = req.body as IUser;
-    const createdUser = await UserServices.createUserIntoDB(newUser);
-    const data = {
-      userId: createdUser.userId,
-      username: createdUser.username,
-      fullName: {
-        firstName: createdUser.fullName.firstName,
-        lastName: createdUser.fullName.lastName,
-      },
-      age: createdUser.age,
-      email: createdUser.email,
-      isActive: createdUser.isActive,
-      hobbies: createdUser.hobbies,
-      address: {
-        street: createdUser.address.street,
-        city: createdUser.address.city,
-        country: createdUser.address.country,
-      },
-    };
+    const user = await UserServices.createUserInToDB(newUser);
+
     res.status(201).json({
       success: true,
       message: "User created successfully!",
-      data,
+      data: {
+        userId: user.userId,
+        username: user.username,
+        fullName: user.fullName,
+        age: user.age,
+        email: user.email,
+        isActive: user.isActive,
+        hobbies: user.hobbies,
+        address: user.address,
+      },
     });
   } catch (err) {
     console.log(err);
   }
 };
 
+const updateUser = async (req: Request, res: Response) => {
+  const userId = req.params.userId;
+  const updatedUser = req.body;
+  const result = await UserServices.updateUserInToDB(userId, updatedUser);
+  res.status(200).json({
+    success: true,
+    message: "User Updated successfully!",
+    data: result,
+  });
+};
+
+const getSingleUser = async (req: Request, res: Response) => {
+  const userId = req.params.userId;
+  const result = await UserServices.getSingleStudentFromDB(userId);
+
+  res.status(200).json({
+    success: true,
+    message: "User fetched successfully!",
+    data: result,
+  });
+};
+
+const deleteUser = async (req: Request, res: Response) => {
+  const userId = req.params.userId;
+  await UserServices.deleteUserFromDB(userId);
+
+  res.status(200).json({
+    success: true,
+    message: "User deleted successfully!",
+    data: null,
+  });
+};
+
 export const UserController = {
   getAllUsers,
   createUser,
+  updateUser,
+  getSingleUser,
+  deleteUser,
 };

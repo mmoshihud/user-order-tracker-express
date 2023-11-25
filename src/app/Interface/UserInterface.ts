@@ -15,8 +15,7 @@ interface Order {
   quantity: number;
 }
 
-interface IUser extends Document {
-  _id: string;
+interface IUser {
   userId: number;
   username: string;
   password: string;
