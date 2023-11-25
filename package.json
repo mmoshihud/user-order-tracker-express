@@ -5,9 +5,11 @@
   "main": "server.js",
   "scripts": {
     "build": "tsc",
+    "dev": "tsc --watch",
+    "fix": "npx eslint src --fix",
     "lint": "eslint src --ignore-path .eslintignore --ext .ts",
-    "lint:fix": "npx eslint src --fix",
     "prettier": "npx prettier --write src",
+    "start": "nodemon dist/server.js",
     "test": "mocha"
   },
   "repository": {
@@ -42,6 +44,7 @@
     "eslint-plugin-import": "^2.29.0",
     "eslint-plugin-n": "^16.3.1",
     "eslint-plugin-promise": "^6.1.1",
+    "nodemon": "^3.0.1",
     "prettier": "3.1.0",
     "typescript": "^5.2.2"
   }
