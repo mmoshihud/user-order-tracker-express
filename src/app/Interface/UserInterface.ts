@@ -1,10 +1,32 @@
-interface User {
+interface FullName {
+  firstName: string;
+  lastName: string;
+}
+
+interface Address {
+  street: string;
+  city: string;
+  country: string;
+}
+
+interface Order {
+  productName: string;
+  price: number;
+  quantity: number;
+}
+
+interface IUser extends Document {
+  _id: string;
   userId: number;
   username: string;
   password: string;
-  fullName: string;
+  fullName: FullName;
   age: number;
   email: string;
   isActive: boolean;
+  hobbies: string[];
+  address: Address;
+  orders: Order[];
 }
-export default User;
+
+export default IUser;
