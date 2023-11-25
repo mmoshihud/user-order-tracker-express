@@ -1,5 +1,6 @@
 import express from "express";
 import { UserController } from "../controller/UserController";
+import { OrderController } from "../controller/OrderController";
 
 const router = express.Router();
 
@@ -21,6 +22,18 @@ router.get("/:userId", (req, res, next) => {
 
 router.delete("/:userId", (req, res, next) => {
   UserController.deleteUser(req, res).catch(next);
+});
+
+router.put("/:userId/orders", (req, res, next) => {
+  OrderController.addOrderToUser(req, res).catch(next);
+});
+
+router.get("/:userId/orders", (req, res, next) => {
+  OrderController.getAllOrdersForUser(req, res).catch(next);
+});
+
+router.get("/:userId/orders/total-price", (req, res, next) => {
+  OrderController.calculateTotalPriceForUser(req, res).catch(next);
 });
 
 export const UserRoutes = router;

@@ -16,11 +16,11 @@ const updateUserInToDB = async (
   return await UserModel.findByIdAndUpdate({ _id }, user);
 };
 
-const getSingleStudentFromDB = async (_id: string): Promise<IUser | null> => {
+const getSingleUserFromDB = async (_id: string): Promise<IUser | null> => {
   return await UserModel.findOne({ _id }, "-password");
 };
 
-const deleteUserFromDB = async (_id: string) => {
+const deleteUserFromDB = async (_id: string): Promise<IUser | null> => {
   return await UserModel.findOneAndDelete({ _id });
 };
 
@@ -28,6 +28,6 @@ export const UserServices = {
   getAllUsersFromDB,
   createUserInToDB,
   updateUserInToDB,
-  getSingleStudentFromDB,
+  getSingleUserFromDB,
   deleteUserFromDB,
 };
