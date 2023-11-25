@@ -4,9 +4,7 @@ import type IUser from "../Interface/UserInterface";
 
 const createOrderInToDB = async (
   _id: string,
-  productName: string,
-  price: number,
-  quantity: number,
+  orderData: { productName: string; price: number; quantity: number },
 ): Promise<IUser | null> => {
   const user = await UserModel.findOne({ _id });
 
@@ -17,6 +15,8 @@ const createOrderInToDB = async (
   if (!user.orders) {
     user.orders = [];
   }
+
+  const { productName, price, quantity } = orderData;
 
   user.orders.push({ productName, price, quantity });
 

@@ -1,18 +1,14 @@
 import { type Request, type Response } from "express";
 import { OrderService } from "../services/orderServices";
 import { UserServices } from "../services/userServices";
+import { validateOrder } from "../validation/orderValidation";
 
 const addOrderToUser = async (req: Request, res: Response) => {
-  const userId = req.params.userId;
-  const { productName, price, quantity } = req.body;
-
   try {
-    const order = await OrderService.createOrderInToDB(
-      userId,
-      productName,
-      price,
-      quantity,
-    );
+    const userId = req.params.userId;
+    const orderData = req.body;
+    const validatedData = validateOrder(orderData);
+    const order = await OrderService.createOrderInToDB(userId, validatedData);
 
     if (order) {
       res.json({
@@ -26,10 +22,7 @@ const addOrderToUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: {
-        code: 500,
-        description: "Internal Server Error",
-      },
+      error: error,
     });
   }
 };
@@ -51,10 +44,7 @@ const getAllOrdersForUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: {
-        code: 500,
-        description: "Internal Server Error",
-      },
+      error: error,
     });
   }
 };
@@ -77,12 +67,10 @@ const calculateTotalPriceForUser = async (req: Request, res: Response) => {
       return;
     }
 
-    const totalPrice = user.orders
-      ? user.orders.reduce(
-          (acc, order) => acc + order.price * order.quantity,
-          0,
-        )
-      : 0;
+    const totalPrice = (user.orders || []).reduce(
+      (sum, order) => sum + order.price * order.quantity,
+      0,
+    );
 
     res.status(200).json({
       success: true,

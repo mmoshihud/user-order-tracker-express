@@ -1,6 +1,7 @@
 import type IUser from "../Interface/UserInterface";
 import { UserServices } from "../services/userServices";
 import { type Request, type Response } from "express";
+import { validateUser } from "../validation/userValidation";
 
 const getAllUsers = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -16,10 +17,7 @@ const getAllUsers = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: {
-        code: 500,
-        description: "Internal Server Error",
-      },
+      error: error,
     });
   }
 };
@@ -27,7 +25,8 @@ const getAllUsers = async (req: Request, res: Response): Promise<void> => {
 const createUser = async (req: Request, res: Response): Promise<void> => {
   try {
     const newUser = req.body as IUser;
-    const user = await UserServices.createUserInToDB(newUser);
+    const validatedData = validateUser(newUser);
+    const user = await UserServices.createUserInToDB(validatedData);
 
     res.status(201).json({
       success: true,
@@ -48,10 +47,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: {
-        code: 500,
-        description: "Internal Server Error",
-      },
+      error: error,
     });
   }
 };
@@ -60,7 +56,8 @@ const updateUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
     const updatedUser = req.body;
-    const result = await UserServices.updateUserInToDB(userId, updatedUser);
+    const validatedData = validateUser(updatedUser);
+    const result = await UserServices.updateUserInToDB(userId, validatedData);
 
     if (result) {
       res.status(200).json({
@@ -83,10 +80,7 @@ const updateUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: {
-        code: 500,
-        description: "Internal Server Error",
-      },
+      error: error,
     });
   }
 };
@@ -117,10 +111,7 @@ const getSingleUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: {
-        code: 500,
-        description: "Internal Server Error",
-      },
+      error: error,
     });
   }
 };
@@ -151,10 +142,7 @@ const deleteUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: {
-        code: 500,
-        description: "Internal Server Error",
-      },
+      error: error,
     });
   }
 };
