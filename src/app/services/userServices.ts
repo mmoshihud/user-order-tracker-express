@@ -13,7 +13,7 @@ const updateUserInToDB = async (
   _id: string,
   user: IUser,
 ): Promise<IUser | null> => {
-  return await UserModel.findByIdAndUpdate({ _id }, user);
+  return await UserModel.findByIdAndUpdate({ _id }, user, { new: true });
 };
 
 const getSingleUserFromDB = async (_id: string): Promise<IUser | null> => {

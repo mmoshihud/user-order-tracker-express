@@ -25,4 +25,8 @@ const createOrderInToDB = async (
   return order;
 };
 
-export const OrderService = { createOrderInToDB };
+const getSingleOrderFromDB = async (_id: string): Promise<IUser | null> => {
+  return await UserModel.findOne({ _id });
+};
+
+export const OrderService = { createOrderInToDB, getSingleOrderFromDB };

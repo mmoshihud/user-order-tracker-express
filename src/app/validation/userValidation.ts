@@ -1,7 +1,10 @@
 import { object, string, number, array, boolean } from "zod";
 
 export const userValidationSchema = object({
-  userId: number().int().positive("User ID must be a positive integer"),
+  userId: number()
+    .int()
+    .positive("User ID must be a positive integer")
+    .optional(),
   username: string().min(3, "Username must be at least 3 characters"),
   password: string().min(6, "Password must be at least 6 characters"),
   fullName: object({

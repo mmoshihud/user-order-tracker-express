@@ -4,36 +4,23 @@ import { OrderController } from "../controller/OrderController";
 
 const router = express.Router();
 
-router.get("", (req, res, next) => {
-  UserController.getAllUsers(req, res).catch(next);
-});
+router.get("", UserController.getAllUsers);
 
-router.post("", (req, res, next) => {
-  UserController.createUser(req, res).catch(next);
-});
+router.post("", UserController.createUser);
 
-router.put("/:userId", (req, res, next) => {
-  UserController.updateUser(req, res).catch(next);
-});
+router.put("/:userId", UserController.updateUser);
 
-router.get("/:userId", (req, res, next) => {
-  UserController.getSingleUser(req, res).catch(next);
-});
+router.get("/:userId", UserController.getSingleUser);
 
-router.delete("/:userId", (req, res, next) => {
-  UserController.deleteUser(req, res).catch(next);
-});
+router.delete("/:userId", UserController.deleteUser);
 
-router.put("/:userId/orders", (req, res, next) => {
-  OrderController.addOrderToUser(req, res).catch(next);
-});
+router.put("/:userId/orders", OrderController.addOrderToUser);
 
-router.get("/:userId/orders", (req, res, next) => {
-  OrderController.getAllOrdersForUser(req, res).catch(next);
-});
+router.get("/:userId/orders", OrderController.getAllOrdersForUser);
 
-router.get("/:userId/orders/total-price", (req, res, next) => {
-  OrderController.calculateTotalPriceForUser(req, res).catch(next);
-});
+router.get(
+  "/:userId/orders/total-price",
+  OrderController.calculateTotalPriceForUser,
+);
 
 export const UserRoutes = router;

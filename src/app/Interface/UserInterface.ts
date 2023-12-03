@@ -16,7 +16,7 @@ interface Order {
 }
 
 interface IUser {
-  userId: number;
+  userId?: number;
   username: string;
   password: string;
   fullName: FullName;

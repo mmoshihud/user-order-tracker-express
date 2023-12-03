@@ -22,7 +22,7 @@ const addOrderToUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error,
+      error,
     });
   }
 };
@@ -30,13 +30,30 @@ const addOrderToUser = async (req: Request, res: Response) => {
 const getAllOrdersForUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const result = await UserServices.getSingleUserFromDB(userId);
+    const user = await OrderService.getSingleOrderFromDB(userId);
 
-    if (result) {
+    if (user?.orders) {
+      const formattedOrders = user.orders.map((order) => ({
+        productName: order.productName,
+        price: order.price,
+        quantity: order.quantity,
+      }));
+
       res.status(200).json({
         success: true,
-        message: "Orders retrieved successfully!",
-        data: result.orders || [],
+        message: "Order fetched successfully!",
+        data: {
+          orders: formattedOrders,
+        },
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "User not found",
+        error: {
+          code: 404,
+          description: "User not found!",
+        },
       });
     }
   } catch (error) {
@@ -44,7 +61,7 @@ const getAllOrdersForUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error,
+      error,
     });
   }
 };
@@ -62,7 +79,6 @@ const calculateTotalPriceForUser = async (req: Request, res: Response) => {
           code: 404,
           description: "User not found!",
         },
-        data: null,
       });
       return;
     }
@@ -84,7 +100,7 @@ const calculateTotalPriceForUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      data: null,
+      error,
     });
   }
 };

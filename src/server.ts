@@ -7,7 +7,7 @@ main().catch((err) => {
 });
 
 async function main(): Promise<void> {
-  await mongoose.connect(config.DATABASE_URL as string);
+  mongoose.connect(config.DATABASE_URL as string);
 
   app.listen(config.PORT, () => {
     console.log(`Example app listening on port ${config.PORT}`);

@@ -10,14 +10,27 @@ const getAllUsers = async (req: Request, res: Response): Promise<void> => {
     res.status(200).json({
       success: true,
       message: "Users fetched successfully!",
-      data: result,
+      data: result.map((user) => ({
+        username: user.username,
+        fullName: {
+          firstName: user.fullName.firstName,
+          lastName: user.fullName.lastName,
+        },
+        age: user.age,
+        email: user.email,
+        address: {
+          street: user.address.street,
+          city: user.address.city,
+          country: user.address.country,
+        },
+      })),
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error,
+      error,
     });
   }
 };
@@ -47,7 +60,7 @@ const createUser = async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error,
+      error,
     });
   }
 };
@@ -63,7 +76,16 @@ const updateUser = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: "User Updated successfully!",
-        data: result,
+        data: {
+          userId: result.userId,
+          username: result.username,
+          fullName: result.fullName,
+          age: result.age,
+          email: result.email,
+          isActive: result.isActive,
+          hobbies: result.hobbies,
+          address: result.address,
+        },
       });
     } else {
       res.status(404).json({
@@ -80,7 +102,7 @@ const updateUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error,
+      error,
     });
   }
 };
@@ -94,7 +116,16 @@ const getSingleUser = async (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
         message: "User fetched successfully!",
-        data: result,
+        data: {
+          userId: result.userId,
+          username: result.username,
+          fullName: result.fullName,
+          age: result.age,
+          email: result.email,
+          isActive: result.isActive,
+          hobbies: result.hobbies,
+          address: result.address,
+        },
       });
     } else {
       res.status(404).json({
@@ -111,7 +142,7 @@ const getSingleUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error,
+      error,
     });
   }
 };
@@ -142,7 +173,7 @@ const deleteUser = async (req: Request, res: Response) => {
     res.status(500).json({
       success: false,
       message: "Internal Server Error",
-      error: error,
+      error,
     });
   }
 };
