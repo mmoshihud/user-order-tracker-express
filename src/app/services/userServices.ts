@@ -10,18 +10,18 @@ const createUserInToDB = async (user: IUser): Promise<IUser> => {
 };
 
 const updateUserInToDB = async (
-  _id: string,
+  userId: number,
   user: IUser,
 ): Promise<IUser | null> => {
-  return await UserModel.findByIdAndUpdate({ _id }, user, { new: true });
+  return await UserModel.findOneAndUpdate({ userId }, user, { new: true });
 };
 
-const getSingleUserFromDB = async (_id: string): Promise<IUser | null> => {
-  return await UserModel.findOne({ _id }, "-password");
+const getSingleUserFromDB = async (userId: number): Promise<IUser | null> => {
+  return await UserModel.findOne({ userId }, "-password");
 };
 
-const deleteUserFromDB = async (_id: string): Promise<IUser | null> => {
-  return await UserModel.findOneAndDelete({ _id });
+const deleteUserFromDB = async (userId: number): Promise<IUser | null> => {
+  return await UserModel.findOneAndDelete({ userId });
 };
 
 export const UserServices = {

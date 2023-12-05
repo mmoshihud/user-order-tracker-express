@@ -70,7 +70,10 @@ const updateUser = async (req: Request, res: Response) => {
     const userId = req.params.userId;
     const updatedUser = req.body;
     const validatedData = validateUser(updatedUser);
-    const result = await UserServices.updateUserInToDB(userId, validatedData);
+    const result = await UserServices.updateUserInToDB(
+      parseInt(userId),
+      validatedData,
+    );
 
     if (result) {
       res.status(200).json({
@@ -110,7 +113,7 @@ const updateUser = async (req: Request, res: Response) => {
 const getSingleUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const result = await UserServices.getSingleUserFromDB(userId);
+    const result = await UserServices.getSingleUserFromDB(parseInt(userId));
 
     if (result) {
       res.status(200).json({
@@ -150,7 +153,7 @@ const getSingleUser = async (req: Request, res: Response) => {
 const deleteUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const result = await UserServices.deleteUserFromDB(userId);
+    const result = await UserServices.deleteUserFromDB(parseInt(userId));
 
     if (result) {
       res.status(200).json({

@@ -8,7 +8,10 @@ const addOrderToUser = async (req: Request, res: Response) => {
     const userId = req.params.userId;
     const orderData = req.body;
     const validatedData = validateOrder(orderData);
-    const order = await OrderService.createOrderInToDB(userId, validatedData);
+    const order = await OrderService.createOrderInToDB(
+      parseInt(userId),
+      validatedData,
+    );
 
     if (order) {
       res.status(201).json({
@@ -30,7 +33,7 @@ const addOrderToUser = async (req: Request, res: Response) => {
 const getAllOrdersForUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const user = await OrderService.getSingleOrderFromDB(userId);
+    const user = await OrderService.getSingleOrderFromDB(parseInt(userId));
 
     if (user?.orders) {
       const formattedOrders = user.orders.map((order) => ({
@@ -69,7 +72,7 @@ const getAllOrdersForUser = async (req: Request, res: Response) => {
 const calculateTotalPriceForUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const user = await UserServices.getSingleUserFromDB(userId);
+    const user = await UserServices.getSingleUserFromDB(parseInt(userId));
 
     if (!user) {
       res.status(404).json({
